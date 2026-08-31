@@ -3,6 +3,7 @@ import { Outfit, Manrope } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default function RootLayout({
         <main id="main-content" className="min-h-screen">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );
