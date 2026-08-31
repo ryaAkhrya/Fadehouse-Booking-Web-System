@@ -1,5 +1,20 @@
 import type { Metadata } from 'next';
+import { Outfit, Manrope } from 'next/font/google';
 import './globals.css';
+import { cn } from '@/lib/utils';
+import { Navbar } from '@/components/layout/Navbar';
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+});
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Fadehouse Barbershop',
@@ -12,12 +27,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-[#0B0B0A] text-[#F2F0E9] antialiased">
-        <a href="#main-content" className="sr-only focus:not-sr-only">
+    <html lang="en" className={cn(outfit.variable, manrope.variable)}>
+      <body className="bg-background text-foreground font-sans antialiased selection:bg-accent/30 selection:text-foreground">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-surface focus:text-accent">
           Skip to content
         </a>
-        <main id="main-content">{children}</main>
+        <Navbar />
+        <main id="main-content" className="min-h-screen">
+          {children}
+        </main>
       </body>
     </html>
   );
