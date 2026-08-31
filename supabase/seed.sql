@@ -1,0 +1,2 @@
+-- Seed file for Fadehouse Database
+-- To be fully implemented in Phase 5
