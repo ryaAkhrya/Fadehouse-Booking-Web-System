@@ -1,7 +1,11 @@
 "use client"
 
-import React, { createContext, useContext, useState, useMemo } from "react"
-import { treatments as allTreatments } from "@/data/treatments"
+import React, { createContext, useContext, useState, useMemo, useEffect } from "react"
+import { getAvailableServices } from "@/app/actions/booking"
+import { Database } from "@/types/database"
+
+export type Service = Database['public']['Tables']['services']['Row']
+
 
 export type BookingStep = 1 | 2 | 3 | 4 | 5
 
@@ -9,6 +13,16 @@ export interface CustomerDetails {
   name: string
   phone: string
   notes: string
+}
+
+export interface BookingSuccessData {
+  bookingCode: string
+  date: string
+  startTime: string
+  endTime: string
+  totalDuration: number
+  totalPrice: number
+  treatments: string[]
 }
 
 interface BookingState {
@@ -19,12 +33,17 @@ interface BookingState {
   details: CustomerDetails
   totalDuration: number
   totalPrice: number
+  services: Service[]
+  isLoadingServices: boolean
+  successData: BookingSuccessData | null
+
   
   setStep: (step: BookingStep) => void
   toggleTreatment: (id: string) => void
   setDate: (date: string | null) => void
   setTime: (time: string | null) => void
   setDetails: (details: Partial<CustomerDetails>) => void
+  setSuccessData: (data: BookingSuccessData | null) => void
   resetBooking: () => void
 }
 
@@ -36,20 +55,39 @@ export function BookingProvider({ children }: { children: React.ReactNode }) {
   const [date, setDate] = useState<string | null>(null)
   const [time, setTime] = useState<string | null>(null)
   const [details, setDetailsState] = useState<CustomerDetails>({ name: "", phone: "", notes: "" })
+  const [services, setServices] = useState<Service[]>([])
+  const [isLoadingServices, setIsLoadingServices] = useState(true)
+  const [successData, setSuccessData] = useState<BookingSuccessData | null>(null)
+
+  useEffect(() => {
+    async function loadServices() {
+      setIsLoadingServices(true)
+      try {
+        const data = await getAvailableServices()
+        setServices(data || [])
+      } catch (error) {
+        console.error("Failed to load services", error)
+      } finally {
+        setIsLoadingServices(false)
+      }
+    }
+    loadServices()
+  }, [])
+
 
   const { totalDuration, totalPrice } = useMemo(() => {
     return treatmentIds.reduce(
       (acc, id) => {
-        const t = allTreatments.find((t) => t.id === id)
+        const t = services.find((t) => t.id === id)
         if (t) {
-          acc.totalDuration += t.durationMinutes
+          acc.totalDuration += t.duration_minutes
           acc.totalPrice += t.price
         }
         return acc
       },
       { totalDuration: 0, totalPrice: 0 }
     )
-  }, [treatmentIds])
+  }, [treatmentIds, services])
 
   const toggleTreatment = (id: string) => {
     setTreatmentIds((prev) => 
@@ -70,6 +108,7 @@ export function BookingProvider({ children }: { children: React.ReactNode }) {
     setDate(null)
     setTime(null)
     setDetailsState({ name: "", phone: "", notes: "" })
+    setSuccessData(null)
   }
 
   return (
@@ -87,6 +126,10 @@ export function BookingProvider({ children }: { children: React.ReactNode }) {
         setDetails,
         totalDuration,
         totalPrice,
+        services,
+        isLoadingServices,
+        successData,
+        setSuccessData,
         resetBooking,
       }}
     >

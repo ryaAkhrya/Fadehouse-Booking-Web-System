@@ -6,7 +6,7 @@ The website has no customer authentication, therefore every booking-related endp
 
 ## Critical Rules
 
-1. Never expose Supabase service-role key to the browser.
+1. Never expose DATABASE_URL to the browser.
 2. Never allow unrestricted public `SELECT * FROM bookings`.
 3. Never expose a public endpoint that lists bookings.
 4. Booking creation must be validated server-side.
@@ -95,9 +95,9 @@ Privileged database operations should happen in:
 
 Avoid direct browser writes to sensitive booking tables.
 
-## RLS
+## Database Security
 
-Configure Supabase RLS so public/anon users cannot:
+Configure the application boundary so public users cannot:
 - list bookings,
 - read arbitrary bookings,
 - update arbitrary bookings,
@@ -110,7 +110,7 @@ Public read access may be allowed only for non-sensitive tables such as active s
 Do not return:
 - raw SQL errors,
 - stack traces,
-- Supabase internal errors,
+- database internal errors,
 - secret config,
 - internal IDs.
 
@@ -140,9 +140,7 @@ Where practical, implement database-level protection or transaction-safe logic t
 Never commit secrets.
 
 Expected categories:
-- public Supabase URL
-- public Supabase anon key if required
-- server-only Supabase service-role key
+- server-only DATABASE_URL
 
 Use clear prefixes so server-only secrets cannot be accidentally bundled into client code.
 

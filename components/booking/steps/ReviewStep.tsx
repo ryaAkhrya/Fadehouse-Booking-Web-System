@@ -7,16 +7,17 @@ import { FadeIn } from "@/components/motion/FadeIn"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { formatIDR, formatDuration } from "@/lib/utils"
-import { treatments as allTreatments } from "@/data/treatments"
+import { createBooking } from "@/app/actions/booking"
 
 export function ReviewStep() {
-  const { date, time, totalDuration, totalPrice, details, treatmentIds, setStep } = useBooking()
+  const { date, time, totalDuration, totalPrice, details, treatmentIds, setStep, setSuccessData, services } = useBooking()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const router = useRouter()
 
   const selectedTreatments = treatmentIds
-    .map(id => allTreatments.find(t => t.id === id))
-    .filter(Boolean) as typeof allTreatments
+    .map(id => services.find(t => t.id === id))
+    .filter(Boolean) as typeof services
 
   // Calculate end time purely for front-end Phase 4 UI
   let endTime = ""
@@ -28,13 +29,32 @@ export function ReviewStep() {
     endTime = `${endH.toString().padStart(2, '0')}:${endM.toString().padStart(2, '0')}`
   }
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    if (!date || !time) return
     setIsSubmitting(true)
-    // Simulate network request
-    setTimeout(() => {
-      // Navigate to success page
-      router.push("/booking/success")
-    }, 1500)
+    setErrorMsg(null)
+
+    try {
+      const result = await createBooking({
+        customerName: details.name,
+        customerPhone: details.phone,
+        notes: details.notes,
+        date,
+        time,
+        treatmentIds
+      })
+
+      if (result.error) {
+        setErrorMsg(result.error)
+      } else if (result.data) {
+        setSuccessData(result.data)
+        router.push("/booking/success")
+      }
+    } catch {
+      setErrorMsg("We couldn't confirm the appointment. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -120,6 +140,12 @@ export function ReviewStep() {
           </div>
         </div>
       </div>
+
+      {errorMsg && (
+        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-sm text-sm">
+          {errorMsg}
+        </div>
+      )}
 
       <div className="pt-8 border-t border-border/50 flex justify-between items-center">
         <Button variant="text" onClick={() => setStep(4)} disabled={isSubmitting} className="px-0 hover:bg-transparent hover:text-accent">

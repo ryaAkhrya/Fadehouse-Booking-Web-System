@@ -11,7 +11,7 @@ Membuat experience booking yang terasa seperti produk bisnis nyata:
 - Customer memilih tanggal dan time slot yang benar-benar tersedia.
 - Customer mengisi nama, nomor HP, dan optional notes.
 - Sistem menghitung total durasi dan estimasi harga.
-- Booking disimpan ke Supabase.
+- Booking disimpan ke Neon PostgreSQL.
 - Customer menerima Booking ID di success page.
 - Customer dapat mengelola booking menggunakan Booking ID + nomor HP.
 - Customer dapat membatalkan appointment jika masih memenuhi aturan cancellation.
@@ -28,7 +28,7 @@ Membuat experience booking yang terasa seperti produk bisnis nyata:
 - Next.js
 - TypeScript
 - Tailwind CSS
-- Supabase
+- Neon PostgreSQL
 - Motion / Framer Motion style motion library sesuai stack yang dipilih
 - n8n opsional untuk appointment lifecycle automation
 
@@ -104,7 +104,7 @@ AI coding agent boleh memakai temporary placeholder asset selama development, te
 
 ### Phase 1 — Foundation & Documentation
 - Next.js + TypeScript + Tailwind setup
-- Supabase setup
+- Neon PostgreSQL setup
 - environment structure
 - folder architecture
 - documentation locked
@@ -141,7 +141,7 @@ AI coding agent boleh memakai temporary placeholder asset selama development, te
 - success state
 - front-end interaction polish
 
-### Phase 5 — Supabase & Booking Engine
+### Phase 5 — Neon PostgreSQL & Booking Engine
 - schema
 - seed data
 - service data

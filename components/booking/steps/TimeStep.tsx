@@ -1,23 +1,38 @@
 "use client"
 
-import React, { useMemo } from "react"
+import React, { useState, useEffect } from "react"
 import { useBooking } from "@/lib/booking-context"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { Button } from "@/components/ui/button"
-import { generateTimeSlots, getMockUnavailableSlots } from "@/data/mock-availability"
+import { getAvailability } from "@/app/actions/booking"
 
 export function TimeStep() {
-  const { date, time, setTime, totalDuration, setStep } = useBooking()
+  const { date, time, setTime, treatmentIds, setStep } = useBooking()
+  const [slots, setSlots] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
-  const slots = useMemo(() => {
-    if (!date) return []
-    return generateTimeSlots(date, totalDuration)
-  }, [date, totalDuration])
-
-  const unavailableSlots = useMemo(() => {
-    if (!date) return []
-    return getMockUnavailableSlots(date)
-  }, [date])
+  useEffect(() => {
+    async function fetchSlots() {
+      if (!date || treatmentIds.length === 0) return
+      setLoading(true)
+      setErrorMsg(null)
+      try {
+        const result = await getAvailability(date, treatmentIds)
+        if (result.error) {
+          setErrorMsg(result.error)
+          setSlots([])
+        } else {
+          setSlots(result.slots)
+        }
+      } catch {
+        setErrorMsg("Failed to check availability.")
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchSlots()
+  }, [date, treatmentIds])
 
   return (
     <FadeIn className="space-y-8">
@@ -34,26 +49,30 @@ export function TimeStep() {
         <div className="bg-surface border border-border/50 p-6 text-center text-muted">
           Please select a date first.
         </div>
+      ) : loading ? (
+        <div className="bg-surface border border-border/50 p-6 text-center text-muted">
+          Checking available times...
+        </div>
+      ) : errorMsg ? (
+        <div className="bg-surface border border-border/50 p-6 text-center text-muted">
+          {errorMsg}
+        </div>
       ) : slots.length === 0 ? (
         <div className="bg-surface border border-border/50 p-6 text-center text-muted">
-          Fadehouse is closed on this day.
+          No times are available for this treatment on the selected date.
         </div>
       ) : (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
           {slots.map((slotTime) => {
-            const isUnavailable = unavailableSlots.includes(slotTime)
             const isSelected = time === slotTime
 
             return (
               <button
                 key={slotTime}
-                disabled={isUnavailable}
                 onClick={() => setTime(slotTime)}
                 className={`
                   py-4 flex items-center justify-center rounded-sm font-medium transition-all duration-200 border text-sm
-                  ${isUnavailable 
-                    ? "border-border/30 bg-surface/30 text-muted/30 cursor-not-allowed" 
-                    : "border-border/50 bg-surface hover:border-accent text-foreground hover:bg-surface/80"}
+                  border-border/50 bg-surface hover:border-accent text-foreground hover:bg-surface/80
                   ${isSelected ? "bg-accent border-accent text-background hover:bg-accent hover:text-background" : ""}
                 `}
               >

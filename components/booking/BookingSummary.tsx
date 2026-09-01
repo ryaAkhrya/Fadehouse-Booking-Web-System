@@ -2,14 +2,13 @@
 
 import { useBooking } from "@/lib/booking-context"
 import { formatIDR, formatDuration } from "@/lib/utils"
-import { treatments as allTreatments } from "@/data/treatments"
 
 export function BookingSummary() {
-  const { treatmentIds, date, time, totalDuration, totalPrice } = useBooking()
+  const { treatmentIds, date, time, totalDuration, totalPrice, services } = useBooking()
   
   const selectedTreatments = treatmentIds
-    .map(id => allTreatments.find(t => t.id === id))
-    .filter(Boolean) as typeof allTreatments
+    .map(id => services.find(t => t.id === id))
+    .filter(Boolean) as typeof services
 
   if (treatmentIds.length === 0) {
     return (

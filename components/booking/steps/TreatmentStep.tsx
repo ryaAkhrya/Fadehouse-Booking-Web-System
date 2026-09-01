@@ -1,14 +1,13 @@
 "use client"
 
 import { useBooking } from "@/lib/booking-context"
-import { treatments as allTreatments } from "@/data/treatments"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { formatIDR, formatDuration } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
 
 export function TreatmentStep() {
-  const { treatmentIds, toggleTreatment, setStep } = useBooking()
+  const { treatmentIds, toggleTreatment, setStep, services, isLoadingServices } = useBooking()
 
   return (
     <FadeIn className="space-y-8">
@@ -22,7 +21,12 @@ export function TreatmentStep() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {allTreatments.map((t) => {
+        {isLoadingServices ? (
+          <div className="col-span-1 md:col-span-2 text-center text-muted p-12 border border-border/50 bg-surface">
+            Loading treatments...
+          </div>
+        ) : (
+          services.map((t) => {
           const isSelected = treatmentIds.includes(t.id)
           
           return (
@@ -45,11 +49,11 @@ export function TreatmentStep() {
               </div>
               <p className="text-sm text-muted mb-6 h-10">{t.description}</p>
               <div className="flex items-center text-sm font-medium">
-                {formatDuration(t.durationMinutes)} <span className="text-muted mx-2">&bull;</span> {formatIDR(t.price)}
+                {formatDuration(t.duration_minutes)} <span className="text-muted mx-2">&bull;</span> {formatIDR(t.price)}
               </div>
             </button>
           )
-        })}
+        }))}
       </div>
 
       <div className="pt-8 border-t border-border/50 flex justify-end">

@@ -2,7 +2,7 @@
 
 ## Database
 
-Supabase PostgreSQL.
+Neon PostgreSQL.
 
 The schema should remain small and explicit for MVP.
 
@@ -237,9 +237,9 @@ Preferred:
 - booking creation goes through server-side code,
 - Manage Booking goes through server-side code,
 - cancellation goes through server-side code,
-- server holds privileged Supabase credentials.
+- server holds privileged database connection strings.
 
-Never expose service-role key in browser code.
+Never expose DATABASE_URL in browser code.
 
 ## Historical Integrity
 
@@ -249,11 +249,11 @@ Do not calculate historical booking details from current `services` values.
 
 ## Migration Files
 
-When implementing Supabase, create SQL migration/seed files in a conventional database folder, for example:
+When implementing the database, create SQL migration/seed files in a conventional database folder, for example:
 
 ```txt
-/supabase/migrations/
+/supabase/migrations/ (or /database/migrations/)
 /supabase/seed.sql
 ```
 
-The coding agent should provide clear instructions for running migrations in Supabase.
+The coding agent should provide clear instructions for running migrations in Neon.
