@@ -3,15 +3,7 @@
 import { sql } from '@/lib/db';
 import { Database } from '@/types/database';
 
-// Normalize phone number helper
-function normalizePhone(phone: string): string {
-  let cleaned = phone.replace(/\D/g, '');
-  if (cleaned.startsWith('0')) {
-    cleaned = '62' + cleaned.substring(1);
-  }
-  return cleaned;
-}
-
+import { normalizePhone } from '@/lib/phone';
 export async function getAvailableServices() {
   try {
     const data = await sql`

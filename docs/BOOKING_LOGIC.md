@@ -216,23 +216,20 @@ When cancelled:
 
 ## Completion
 
-Preferred lifecycle rule:
+Preferred MVP lifecycle rule (Lazy synchronization):
 
-A booking can become `completed` after its end time.
-
-Optional n8n job:
+A confirmed booking becomes `completed` automatically when a customer looks it up via Manage Booking AND its end time has passed.
 
 ```txt
-Find bookings:
+Find booking:
 status = confirmed
-AND end_datetime < current_datetime
+AND (appointment_date + end_time) AT TIME ZONE 'Asia/Jakarta' <= current_timestamp
 
 Update:
 status = completed
 ```
 
-This workflow must support catch-up.
-If it did not run for several hours, the next run should still find and complete overdue confirmed bookings.
+This lazy approach avoids external crons/n8n and safely keeps historical bookings accurate when viewed.
 
 ## Status Rules
 
