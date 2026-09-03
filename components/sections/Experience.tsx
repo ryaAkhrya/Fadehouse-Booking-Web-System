@@ -48,6 +48,7 @@ export async function Experience() {
               src="/images/barbershop/interior-01.webp" 
               alt="Fadehouse Interior" 
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
             />
           </FadeIn>

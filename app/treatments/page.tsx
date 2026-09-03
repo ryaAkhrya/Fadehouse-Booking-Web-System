@@ -49,6 +49,7 @@ export default async function TreatmentsPage() {
                 src={treatment.image} 
                 alt={treatment.name}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
               />
             </div>

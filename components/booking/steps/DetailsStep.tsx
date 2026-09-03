@@ -52,6 +52,7 @@ export function DetailsStep() {
           <Input 
             id="name" 
             placeholder="John Doe" 
+            maxLength={50}
             value={details.name}
             onChange={(e) => {
               setDetails({ name: e.target.value })
@@ -68,6 +69,7 @@ export function DetailsStep() {
             id="phone" 
             type="tel"
             placeholder="081234567890" 
+            maxLength={20}
             value={details.phone}
             onChange={(e) => {
               setDetails({ phone: e.target.value })
@@ -83,6 +85,7 @@ export function DetailsStep() {
           <Textarea 
             id="notes" 
             placeholder="" 
+            maxLength={500}
             value={details.notes}
             onChange={(e) => setDetails({ notes: e.target.value })}
             className="h-24 resize-none"

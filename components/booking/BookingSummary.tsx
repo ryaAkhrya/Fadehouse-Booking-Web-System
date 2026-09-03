@@ -1,7 +1,7 @@
 "use client"
 
 import { useBooking } from "@/lib/booking-context"
-import { formatIDR, formatDuration } from "@/lib/utils"
+import { formatIDR } from "@/lib/utils"
 import { useLanguage } from "@/lib/i18n/LanguageContext"
 
 export function BookingSummary() {

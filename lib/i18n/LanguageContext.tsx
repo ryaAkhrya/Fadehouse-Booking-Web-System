@@ -36,7 +36,8 @@ export function LanguageProvider({
     const cookieLang = match ? match[1] : null
     if (cookieLang === 'en' || cookieLang === 'id') {
       if (cookieLang !== lang) {
-        setLangState(cookieLang)
+        // Schedule state update to avoid synchronous cascading renders during effect phase
+        queueMicrotask(() => setLangState(cookieLang))
       }
     }
   }, [lang])

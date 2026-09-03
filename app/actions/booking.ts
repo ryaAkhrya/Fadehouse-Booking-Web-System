@@ -141,6 +141,10 @@ export async function createBooking(input: BookingInput) {
         return { error: 'Missing required fields.' };
     }
 
+    if (input.customerName.length > 50 || input.customerPhone.length > 20 || (input.notes && input.notes.length > 500)) {
+        return { error: 'Invalid input length.' };
+    }
+
     const phone = normalizePhone(input.customerPhone);
 
     try {

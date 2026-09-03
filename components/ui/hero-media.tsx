@@ -28,7 +28,7 @@ export function HeroMedia() {
             poster="/images/hero-poster.webp"
             className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity z-10 md:hidden"
           >
-            <source src="/media/hero-mobile.mp4" type="video/mp4" onError={() => setVideoError(true)} />
+            <source src="/media/hero-mobile.webm" type="video/webm" onError={() => setVideoError(true)} />
           </video>
         </>
       )}

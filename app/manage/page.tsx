@@ -102,6 +102,7 @@ export default function ManageBookingPage() {
                   id="bookingCode"
                   type="text"
                   required
+                  maxLength={20}
                   value={bookingCode}
                   onChange={(e) => setBookingCode(e.target.value)}
                   placeholder="e.g. FH-A7K29Q"
@@ -117,6 +118,7 @@ export default function ManageBookingPage() {
                   id="phone"
                   type="tel"
                   required
+                  maxLength={20}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="e.g. 08123456789"
