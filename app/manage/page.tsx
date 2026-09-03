@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Calendar, Clock, CreditCard, X, AlertCircle } from "lucide-react"
 import { lookupBooking, cancelBooking, ManagedBooking } from "@/app/actions/manage"
+import { useLanguage } from "@/lib/i18n/LanguageContext"
 
 export default function ManageBookingPage() {
   const [bookingCode, setBookingCode] = useState("")
@@ -16,6 +17,8 @@ export default function ManageBookingPage() {
   const [isCancelling, setIsCancelling] = useState(false)
   const [showCancelModal, setShowCancelModal] = useState(false)
 
+  const { t, lang } = useLanguage()
+
   const handleLookup = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -25,7 +28,7 @@ export default function ManageBookingPage() {
     const res = await lookupBooking(bookingCode, phone)
     
     if (res.error) {
-      setError(res.error)
+      setError(lang === 'id' ? "Pesanan tidak ditemukan" : res.error)
     } else if (res.data) {
       setBooking(res.data)
     }
@@ -40,7 +43,7 @@ export default function ManageBookingPage() {
     const res = await cancelBooking(bookingCode, phone)
     
     if (res.error) {
-      setError(res.error)
+      setError(lang === 'id' ? "Gagal membatalkan pesanan" : res.error)
       setShowCancelModal(false)
     } else if (res.success) {
       const refresh = await lookupBooking(bookingCode, phone)
@@ -64,7 +67,7 @@ export default function ManageBookingPage() {
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr)
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -76,11 +79,11 @@ export default function ManageBookingPage() {
     <div className="min-h-screen pt-32 pb-24 bg-background relative z-0">
       <div className="mx-auto max-w-3xl px-6 lg:px-8">
         <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground uppercase mb-6 text-center">
-          Manage Appointment
+          {t.manage.title}
         </h1>
         
         <p className="text-muted text-center max-w-xl mx-auto mb-12">
-          View or cancel your upcoming Fadehouse appointment using your Booking ID and phone number.
+          {t.manage.subtitle}
         </p>
 
         {/* Lookup Form */}
@@ -93,7 +96,7 @@ export default function ManageBookingPage() {
             <form onSubmit={handleLookup} className="space-y-6">
               <div>
                 <label htmlFor="bookingCode" className="block text-sm font-medium text-foreground/80 mb-2">
-                  Booking ID
+                  {t.manage.form.bookingId}
                 </label>
                 <input
                   id="bookingCode"
@@ -108,7 +111,7 @@ export default function ManageBookingPage() {
 
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-foreground/80 mb-2">
-                  Phone Number
+                  {t.manage.form.phone}
                 </label>
                 <input
                   id="phone"
@@ -133,7 +136,7 @@ export default function ManageBookingPage() {
                 disabled={loading || !bookingCode || !phone}
                 className="w-full bg-foreground text-background font-medium py-4 rounded-lg hover:bg-foreground/90 transition-colors uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? "Searching..." : "Find Appointment"}
+                {loading ? t.manage.form.loading : t.manage.form.submit}
               </button>
             </form>
           </motion.div>
@@ -150,7 +153,7 @@ export default function ManageBookingPage() {
               onClick={() => setBooking(null)}
               className="text-sm text-muted hover:text-accent transition-colors mb-4 inline-flex items-center gap-2"
             >
-              &larr; Back to search
+              &larr; {t.booking.steps.buttons.back}
             </button>
 
             {error && (
@@ -163,7 +166,7 @@ export default function ManageBookingPage() {
             <div className="bg-surface/50 border border-white/5 rounded-xl p-8 backdrop-blur-sm">
               <div className="flex justify-between items-start mb-8 pb-8 border-b border-white/5">
                 <div>
-                  <p className="text-sm text-muted mb-1">Booking ID</p>
+                  <p className="text-sm text-muted mb-1">{t.manage.form.bookingId}</p>
                   <p className="font-display font-bold text-2xl tracking-wider text-foreground">{booking.bookingCode}</p>
                 </div>
                 <div>
@@ -172,7 +175,7 @@ export default function ManageBookingPage() {
                     booking.status === 'cancelled' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
                     'bg-white/10 text-muted border border-white/10'
                   }`}>
-                    {booking.status}
+                    {booking.status === 'confirmed' ? t.manage.result.statuses.confirmed : booking.status === 'cancelled' ? t.manage.result.statuses.cancelled : booking.status}
                   </span>
                 </div>
               </div>
@@ -183,7 +186,7 @@ export default function ManageBookingPage() {
                     <Calendar className="w-5 h-5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted mb-1">Date</p>
+                    <p className="text-sm text-muted mb-1">{t.booking.summary.date}</p>
                     <p className="font-medium text-foreground">{formatDate(booking.appointmentDate)}</p>
                   </div>
                 </div>
@@ -193,9 +196,9 @@ export default function ManageBookingPage() {
                     <Clock className="w-5 h-5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted mb-1">Time & Duration</p>
+                    <p className="text-sm text-muted mb-1">{t.booking.summary.time} & {t.booking.summary.duration}</p>
                     <p className="font-medium text-foreground">{booking.startTime.slice(0, 5)} - {booking.endTime.slice(0, 5)}</p>
-                    <p className="text-sm text-muted mt-0.5">{booking.totalDuration} minutes total</p>
+                    <p className="text-sm text-muted mt-0.5">{booking.totalDuration} {t.booking.summary.minutes} total</p>
                   </div>
                 </div>
 
@@ -204,16 +207,19 @@ export default function ManageBookingPage() {
                     <CreditCard className="w-5 h-5 text-accent" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-muted mb-3">Treatments</p>
+                    <p className="text-sm text-muted mb-3">{t.booking.summary.treatment}</p>
                     <div className="space-y-3">
-                      {booking.services.map((s, idx) => (
+                      {booking.services.map((s, idx) => {
+                        const translation = t.treatments.list[s.id as keyof typeof t.treatments.list]
+                        return (
                         <div key={idx} className="flex justify-between items-center text-sm">
-                          <span className="text-foreground">{s.name}</span>
+                          <span className="text-foreground">{translation?.name || s.name}</span>
                           <span className="text-muted">{formatIDR(s.price)}</span>
                         </div>
-                      ))}
+                        )
+                      })}
                       <div className="pt-3 mt-3 border-t border-white/5 flex justify-between items-center font-medium">
-                        <span className="text-foreground">Estimated Total</span>
+                        <span className="text-foreground">{t.booking.summary.price}</span>
                         <span className="text-accent">{formatIDR(booking.totalPrice)}</span>
                       </div>
                     </div>
@@ -228,7 +234,7 @@ export default function ManageBookingPage() {
                     onClick={() => setShowCancelModal(true)}
                     className="w-full sm:w-auto px-6 py-3 border border-red-500/30 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors text-sm font-medium uppercase tracking-wider"
                   >
-                    Cancel Appointment
+                    {t.manage.result.cancelBtn}
                   </button>
                 </div>
               )}
@@ -267,12 +273,13 @@ export default function ManageBookingPage() {
               </div>
               
               <h3 className="font-display text-2xl font-bold text-foreground uppercase tracking-wider mb-3">
-                Cancel Appointment?
+                {t.manage.result.cancelBtn}?
               </h3>
               
               <p className="text-muted mb-8 text-sm leading-relaxed">
-                Are you sure you want to cancel your appointment for <span className="text-foreground font-medium">{booking?.appointmentDate && formatDate(booking.appointmentDate)}</span> at <span className="text-foreground font-medium">{booking?.startTime.slice(0, 5)}</span>? 
-                This action cannot be undone and your slot will be released.
+                {t.manage.result.cancelConfirm
+                  .replace('{date}', booking?.appointmentDate ? formatDate(booking.appointmentDate) : '')
+                  .replace('{time}', booking?.startTime.slice(0, 5) || '')}
               </p>
 
               <div className="flex gap-3 flex-col-reverse sm:flex-row">
@@ -281,14 +288,14 @@ export default function ManageBookingPage() {
                   disabled={isCancelling}
                   className="flex-1 py-3 px-4 border border-white/10 text-foreground rounded-lg hover:bg-white/5 transition-colors font-medium text-sm"
                 >
-                  Keep Appointment
+                  {t.manage.result.cancelNo}
                 </button>
                 <button
                   onClick={handleCancel}
                   disabled={isCancelling}
                   className="flex-1 py-3 px-4 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors font-medium text-sm disabled:opacity-50"
                 >
-                  {isCancelling ? "Cancelling..." : "Yes, Cancel"}
+                  {isCancelling ? t.manage.result.cancelLoading : t.manage.result.cancelYes}
                 </button>
               </div>
             </motion.div>

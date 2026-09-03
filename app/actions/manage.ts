@@ -15,6 +15,7 @@ export type ManagedBooking = {
   customerPhone: string;
   notes: string | null;
   services: {
+    id: string;
     name: string;
     price: number;
     duration: number;
@@ -56,6 +57,7 @@ export async function lookupBooking(bookingCode: string, phone: string): Promise
         COALESCE(
           json_agg(
             json_build_object(
+              'id', s.service_id,
               'name', s.service_name_snapshot,
               'price', s.price_snapshot,
               'duration', s.duration_snapshot

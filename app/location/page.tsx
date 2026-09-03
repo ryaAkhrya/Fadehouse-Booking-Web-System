@@ -3,24 +3,27 @@ import { Reveal } from "@/components/motion/Reveal"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { LocationInfo } from "@/components/sections/LocationInfo"
 import { FallbackImage } from "@/components/ui/fallback-image"
+import { getDictionary } from "@/lib/i18n"
 
 export const metadata: Metadata = {
   title: 'Location & Hours | Fadehouse Barbershop',
   description: 'Find Fadehouse Barbershop in Jakarta. View our opening hours, contact details, and directions.',
 }
 
-export default function LocationPage() {
+export default async function LocationPage() {
+  const { t } = await getDictionary()
+
   return (
     <div className="pt-32 min-h-screen">
       <div className="px-6 lg:px-8 max-w-7xl mx-auto mb-16">
         <Reveal>
           <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tight text-foreground uppercase">
-            Location
+            {t.location.pageTitle}
           </h1>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="mt-6 text-lg text-muted max-w-xl">
-            Find us in the heart of the city. A premium space designed for precise grooming.
+            {t.location.pageSubtitle}
           </p>
         </Reveal>
       </div>

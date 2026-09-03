@@ -3,8 +3,11 @@ import { Reveal } from "@/components/motion/Reveal"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { Button } from "@/components/ui/button"
 import { HeroMedia } from "@/components/ui/hero-media"
+import { getDictionary } from "@/lib/i18n"
 
-export function Hero() {
+export async function Hero() {
+  const { t } = await getDictionary()
+
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-background">
       {/* Background Media Placeholder */}
@@ -20,22 +23,22 @@ export function Hero() {
         <div className="max-w-2xl">
           <Reveal delay={0.1}>
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground uppercase leading-[0.95] mb-6">
-              Precision <br /> Without <br /> Compromise.
+              {t.hero.title[0]} <br /> {t.hero.title[1]} <br /> {t.hero.title[2]}
             </h1>
           </Reveal>
           
           <Reveal delay={0.3}>
             <p className="text-lg md:text-xl text-muted max-w-lg mb-10">
-              Modern grooming, considered down to the detail. Choose your treatment, reserve your time, and pay when you arrive.
+              {t.hero.subtitle}
             </p>
           </Reveal>
           
           <FadeIn delay={0.5} className="flex flex-wrap gap-4">
             <Button asChild size="lg" className="text-base h-14 px-8">
-              <Link href="/booking">Book Appointment</Link>
+              <Link href="/booking">{t.hero.bookBtn}</Link>
             </Button>
             <Button asChild variant="secondary" size="lg" className="text-base h-14 px-8 border-muted/30">
-              <Link href="/treatments">View Treatments</Link>
+              <Link href="/treatments">{t.hero.treatmentsBtn}</Link>
             </Button>
           </FadeIn>
         </div>

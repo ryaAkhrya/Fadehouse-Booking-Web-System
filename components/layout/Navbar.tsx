@@ -7,8 +7,11 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { MobileMenu } from "./MobileMenu"
 import { Button } from "@/components/ui/button"
+import { useLanguage } from "@/lib/i18n/LanguageContext"
+import { LanguageSwitcher } from "./LanguageSwitcher"
 
 export function Navbar() {
+  const { t } = useLanguage()
   const { scrollY } = useScroll()
   const [isScrolled, setIsScrolled] = React.useState(false)
   const pathname = usePathname()
@@ -40,14 +43,15 @@ export function Navbar() {
             FADEHOUSE
           </Link>
           <nav className="hidden md:flex gap-6">
-            <NavLink href="/treatments" current={pathname}>Treatments</NavLink>
-            <NavLink href="/location" current={pathname}>Location</NavLink>
-            <NavLink href="/manage" current={pathname}>Manage Booking</NavLink>
+            <NavLink href="/treatments" current={pathname}>{t.nav.treatments}</NavLink>
+            <NavLink href="/location" current={pathname}>{t.nav.location}</NavLink>
+            <NavLink href="/manage" current={pathname}>{t.nav.manage}</NavLink>
           </nav>
         </div>
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-6">
+          <LanguageSwitcher />
           <Button variant="primary" asChild>
-            <Link href="/booking">Book Appointment</Link>
+            <Link href="/booking">{t.nav.book}</Link>
           </Button>
         </div>
         <div className="md:hidden">

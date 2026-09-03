@@ -5,9 +5,12 @@ import { useBooking } from "@/lib/booking-context"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useLanguage } from "@/lib/i18n/LanguageContext"
 
 export function DateStep() {
   const { date, setDate, setStep } = useBooking()
+  const { t, lang } = useLanguage()
+  
   // Start calendar at currently selected date or today
   const [currentMonth, setCurrentMonth] = useState(() => {
     if (date) {
@@ -66,17 +69,17 @@ export function DateStep() {
     <FadeIn className="space-y-8">
       <div>
         <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-foreground">
-          Choose a Date
+          {t.booking.steps.date.title}
         </h2>
         <p className="mt-2 text-muted">
-          Available dates follow Fadehouse opening hours and current bookings.
+          {t.booking.steps.date.desc}
         </p>
       </div>
 
       <div className="max-w-md bg-surface border border-border/50 p-6 rounded-sm">
         <div className="flex items-center justify-between mb-6">
           <h3 className="font-medium text-lg tracking-wide">
-            {currentMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+            {new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', { month: 'long', year: 'numeric' }).format(currentMonth)}
           </h3>
           <div className="flex gap-2">
             <button 
@@ -96,7 +99,7 @@ export function DateStep() {
         </div>
 
         <div className="grid grid-cols-7 gap-2 mb-2 text-center text-xs font-medium text-muted uppercase tracking-wider">
-          {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
+          {t.booking.steps.date.days.map(day => (
             <div key={day} className="py-2">{day}</div>
           ))}
         </div>
@@ -129,10 +132,10 @@ export function DateStep() {
 
       <div className="pt-8 border-t border-border/50 flex justify-between">
         <Button variant="text" onClick={() => setStep(1)} className="px-0 hover:bg-transparent hover:text-accent">
-          Back
+          {t.booking.steps.buttons.back}
         </Button>
         <Button size="lg" onClick={() => setStep(3)} disabled={!date}>
-          Continue to Time
+          {t.booking.steps.buttons.continueToTime}
         </Button>
       </div>
     </FadeIn>

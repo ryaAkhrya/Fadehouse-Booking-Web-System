@@ -1,8 +1,11 @@
 import { Reveal } from "@/components/motion/Reveal"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { FallbackImage } from "@/components/ui/fallback-image"
+import { getDictionary } from "@/lib/i18n"
 
-export function Experience() {
+export async function Experience() {
+  const { t } = await getDictionary()
+
   return (
     <section className="py-24 bg-background overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -10,29 +13,29 @@ export function Experience() {
           <div>
             <Reveal>
               <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground uppercase mb-8">
-                The Fadehouse <br /> Standard
+                {t.home.experience.title[0]} <br /> {t.home.experience.title[1]}
               </h2>
             </Reveal>
             
             <div className="space-y-8">
               <FadeIn delay={0.2}>
-                <h3 className="text-xl font-bold text-foreground">Attention to Detail</h3>
+                <h3 className="text-xl font-bold text-foreground">{t.home.experience.detail.title}</h3>
                 <p className="mt-2 text-muted max-w-md">
-                  Every cut, trim, and finish is executed with precision. We take the time required to ensure a consistent, high-quality result.
+                  {t.home.experience.detail.desc}
                 </p>
               </FadeIn>
               
               <FadeIn delay={0.3}>
-                <h3 className="text-xl font-bold text-foreground">Considered Timing</h3>
+                <h3 className="text-xl font-bold text-foreground">{t.home.experience.timing.title}</h3>
                 <p className="mt-2 text-muted max-w-md">
-                  Your appointment time is respected. By booking in advance, we maintain a calm environment without the rush of walk-in queues.
+                  {t.home.experience.timing.desc}
                 </p>
               </FadeIn>
               
               <FadeIn delay={0.4}>
-                <h3 className="text-xl font-bold text-foreground">Clean Environment</h3>
+                <h3 className="text-xl font-bold text-foreground">{t.home.experience.clean.title}</h3>
                 <p className="mt-2 text-muted max-w-md">
-                  Tools are sanitized, stations are prepared, and the space is maintained to the highest standard between every client.
+                  {t.home.experience.clean.desc}
                 </p>
               </FadeIn>
             </div>

@@ -7,21 +7,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { useLanguage } from "@/lib/i18n/LanguageContext"
 
 export function DetailsStep() {
   const { details, setDetails, setStep } = useBooking()
+  const { t, lang } = useLanguage()
   const [errors, setErrors] = useState<{name?: string, phone?: string}>({})
 
   const handleContinue = () => {
     const newErrors: {name?: string, phone?: string} = {}
     
     if (!details.name.trim()) {
-      newErrors.name = "Enter your name."
+      newErrors.name = lang === 'id' ? "Masukkan nama Anda." : "Enter your name."
     }
     
     // Very basic phone validation for Phase 4 mock
     if (!details.phone.trim() || details.phone.trim().length < 8) {
-      newErrors.phone = "Enter a valid phone number."
+      newErrors.phone = lang === 'id' ? "Masukkan nomor telepon yang valid." : "Enter a valid phone number."
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -37,16 +39,16 @@ export function DetailsStep() {
     <FadeIn className="space-y-8">
       <div>
         <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-foreground">
-          Your Details
+          {t.booking.steps.details.title}
         </h2>
         <p className="mt-2 text-muted">
-          We need these details to confirm and manage your appointment.
+          {t.booking.steps.details.desc}
         </p>
       </div>
 
       <div className="max-w-xl space-y-6 bg-surface border border-border/50 p-6 rounded-sm">
         <div className="space-y-2">
-          <Label htmlFor="name">Full Name</Label>
+          <Label htmlFor="name">{t.booking.steps.details.firstName}</Label>
           <Input 
             id="name" 
             placeholder="John Doe" 
@@ -61,7 +63,7 @@ export function DetailsStep() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone">Phone Number</Label>
+          <Label htmlFor="phone">{t.booking.steps.details.phone}</Label>
           <Input 
             id="phone" 
             type="tel"
@@ -77,10 +79,10 @@ export function DetailsStep() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="notes">Notes (Optional)</Label>
+          <Label htmlFor="notes">Notes {t.booking.steps.details.optional}</Label>
           <Textarea 
             id="notes" 
-            placeholder="Any specific requests?" 
+            placeholder="" 
             value={details.notes}
             onChange={(e) => setDetails({ notes: e.target.value })}
             className="h-24 resize-none"
@@ -90,10 +92,10 @@ export function DetailsStep() {
 
       <div className="pt-8 border-t border-border/50 flex justify-between">
         <Button variant="text" onClick={() => setStep(3)} className="px-0 hover:bg-transparent hover:text-accent">
-          Back
+          {t.booking.steps.buttons.back}
         </Button>
         <Button size="lg" onClick={handleContinue}>
-          Review Appointment
+          {t.booking.steps.buttons.continueToReview}
         </Button>
       </div>
     </FadeIn>

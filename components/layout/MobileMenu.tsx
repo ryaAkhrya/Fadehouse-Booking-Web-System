@@ -5,8 +5,11 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X } from "lucide-react"
+import { useLanguage } from "@/lib/i18n/LanguageContext"
+import { LanguageSwitcher } from "./LanguageSwitcher"
 
 export function MobileMenu() {
+  const { t } = useLanguage()
   const [isOpen, setIsOpen] = React.useState(false)
   const pathname = usePathname()
 
@@ -56,16 +59,19 @@ export function MobileMenu() {
             </div>
             
             <nav className="flex flex-col gap-6 px-6 pt-12 pb-24 h-full overflow-y-auto">
-              <MobileNavLink href="/treatments" current={pathname} onClick={closeMenu}>Treatments</MobileNavLink>
-              <MobileNavLink href="/location" current={pathname} onClick={closeMenu}>Location</MobileNavLink>
-              <MobileNavLink href="/manage" current={pathname} onClick={closeMenu}>Manage Booking</MobileNavLink>
-              <div className="mt-auto pt-6">
+              <MobileNavLink href="/treatments" current={pathname} onClick={closeMenu}>{t.nav.treatments}</MobileNavLink>
+              <MobileNavLink href="/location" current={pathname} onClick={closeMenu}>{t.nav.location}</MobileNavLink>
+              <MobileNavLink href="/manage" current={pathname} onClick={closeMenu}>{t.nav.manage}</MobileNavLink>
+              <div className="mt-auto pt-6 flex flex-col gap-6">
+                <div className="flex justify-center">
+                  <LanguageSwitcher className="text-base" />
+                </div>
                 <Link 
                   href="/booking"
                   onClick={closeMenu}
                   className="flex w-full items-center justify-center bg-foreground px-6 py-4 text-center text-sm font-medium text-background transition-colors hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
-                  Book Appointment
+                  {t.nav.book}
                 </Link>
               </div>
             </nav>

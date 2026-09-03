@@ -8,15 +8,17 @@ import { DateStep } from "@/components/booking/steps/DateStep"
 import { TimeStep } from "@/components/booking/steps/TimeStep"
 import { DetailsStep } from "@/components/booking/steps/DetailsStep"
 import { ReviewStep } from "@/components/booking/steps/ReviewStep"
+import { useLanguage } from "@/lib/i18n/LanguageContext"
 
 export default function BookingPage() {
   const { step } = useBooking()
+  const { t } = useLanguage()
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-background">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground uppercase mb-12">
-          Reserve Your Time
+          {t.booking.title}
         </h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 flex-col-reverse lg:flex-row">

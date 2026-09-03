@@ -5,18 +5,20 @@ import { FadeIn } from "@/components/motion/FadeIn"
 import { formatIDR, formatDuration } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
+import { useLanguage } from "@/lib/i18n/LanguageContext"
 
 export function TreatmentStep() {
   const { treatmentIds, toggleTreatment, setStep, services, isLoadingServices } = useBooking()
+  const { t } = useLanguage()
 
   return (
     <FadeIn className="space-y-8">
       <div>
         <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-foreground">
-          Choose Your Treatment
+          {t.booking.steps.treatment.title}
         </h2>
         <p className="mt-2 text-muted">
-          Select one or more treatments. We&apos;ll calculate the total time for you.
+          {t.booking.steps.treatment.desc}
         </p>
       </div>
 
@@ -26,13 +28,14 @@ export function TreatmentStep() {
             Loading treatments...
           </div>
         ) : (
-          services.map((t) => {
-          const isSelected = treatmentIds.includes(t.id)
+          services.map((srv) => {
+          const isSelected = treatmentIds.includes(srv.id)
+          const translation = t.treatments.list[srv.id as keyof typeof t.treatments.list]
           
           return (
             <button
-              key={t.id}
-              onClick={() => toggleTreatment(t.id)}
+              key={srv.id}
+              onClick={() => toggleTreatment(srv.id)}
               className={`text-left p-6 border transition-all duration-200 rounded-sm ${
                 isSelected 
                   ? "border-accent bg-accent/5 ring-1 ring-accent" 
@@ -40,16 +43,16 @@ export function TreatmentStep() {
               }`}
             >
               <div className="flex justify-between items-start mb-2">
-                <h3 className="font-display text-xl font-bold">{t.name}</h3>
+                <h3 className="font-display text-xl font-bold">{translation?.name || srv.name}</h3>
                 <div className={`w-6 h-6 rounded-full border flex items-center justify-center transition-colors flex-shrink-0 ml-4 ${
                   isSelected ? "bg-accent border-accent text-background" : "border-muted/30 text-transparent"
                 }`}>
                   <Check className="w-4 h-4" />
                 </div>
               </div>
-              <p className="text-sm text-muted mb-6 h-10">{t.description}</p>
+              <p className="text-sm text-muted mb-6 h-10">{translation?.desc || srv.description}</p>
               <div className="flex items-center text-sm font-medium">
-                {formatDuration(t.duration_minutes)} <span className="text-muted mx-2">&bull;</span> {formatIDR(t.price)}
+                {formatDuration(srv.duration_minutes)} <span className="text-muted mx-2">&bull;</span> {formatIDR(srv.price)}
               </div>
             </button>
           )
@@ -62,7 +65,7 @@ export function TreatmentStep() {
           onClick={() => setStep(2)} 
           disabled={treatmentIds.length === 0}
         >
-          Continue to Date
+          {t.booking.steps.buttons.continueToDate}
         </Button>
       </div>
     </FadeIn>
