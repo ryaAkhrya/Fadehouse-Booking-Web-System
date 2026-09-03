@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion, useInView, useAnimation } from "framer-motion"
+import { motion, useInView, useAnimation, useReducedMotion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 interface RevealProps {
@@ -15,6 +15,7 @@ export function Reveal({ children, className, width = "fit-content", delay = 0 }
   const ref = React.useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-10%" })
   const mainControls = useAnimation()
+  const shouldReduceMotion = useReducedMotion()
 
   React.useEffect(() => {
     if (isInView) {
@@ -26,7 +27,7 @@ export function Reveal({ children, className, width = "fit-content", delay = 0 }
     <div ref={ref} style={{ width }} className={cn("relative overflow-hidden", className)}>
       <motion.div
         variants={{
-          hidden: { opacity: 0, y: 75 },
+          hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 75 },
           visible: { opacity: 1, y: 0 },
         }}
         initial="hidden"

@@ -1,7 +1,13 @@
+import { Metadata } from 'next'
 import { Reveal } from "@/components/motion/Reveal"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { LocationInfo } from "@/components/sections/LocationInfo"
 import { FallbackImage } from "@/components/ui/fallback-image"
+
+export const metadata: Metadata = {
+  title: 'Location & Hours | Fadehouse Barbershop',
+  description: 'Find Fadehouse Barbershop in Jakarta. View our opening hours, contact details, and directions.',
+}
 
 export default function LocationPage() {
   return (

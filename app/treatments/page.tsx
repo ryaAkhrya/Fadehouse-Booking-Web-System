@@ -1,4 +1,10 @@
+import { Metadata } from 'next'
 import { treatments } from "@/data/treatments"
+
+export const metadata: Metadata = {
+  title: 'Treatments | Fadehouse Barbershop',
+  description: 'Refined grooming services. Book your Fadehouse signature haircut, beard trim, or scalp detox.',
+}
 import { formatIDR, formatDuration } from "@/lib/utils"
 import { Reveal } from "@/components/motion/Reveal"
 import { FadeIn } from "@/components/motion/FadeIn"

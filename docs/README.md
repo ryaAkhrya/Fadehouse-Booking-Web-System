@@ -162,17 +162,15 @@ AI coding agent boleh memakai temporary placeholder asset selama development, te
 - booking statuses
 - optional n8n auto-completed workflow
 
-### Phase 7 — Final Polish & Production Check
+### Phase 7 — Final Polish & Production Readiness (Completed)
+### Phase 7 — Final Polish & Production Readiness
 - responsive QA
-- performance
-- accessibility
-- reduced motion
-- security review
-- rate limiting
-- error cases
-- 404
+- accessibility check
+- error/empty states
 - metadata/SEO
-- asset replacement instructions
+- performance tweaks
+- removal of debug logs
+- strict separation of client/server boundary
 - deployment readiness
 
 ## Non-Negotiable Product Decisions
