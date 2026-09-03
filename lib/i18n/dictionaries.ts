@@ -46,6 +46,14 @@ export const en = {
         fri: 'Friday',
         sat: 'Saturday',
         sun: 'Sunday'
+      },
+      panel: {
+        city: 'JAKARTA',
+        country: 'INDONESIA',
+        demoTitle: 'Demo Location',
+        demoDesc: 'Fadehouse is a fictional barbershop created as a portfolio demonstration.',
+        code: 'LOCATION / 001',
+        region: 'JAKARTA — ID'
       }
     }
   },
@@ -247,6 +255,14 @@ export const id = {
         fri: 'Jumat',
         sat: 'Sabtu',
         sun: 'Minggu'
+      },
+      panel: {
+        city: 'JAKARTA',
+        country: 'INDONESIA',
+        demoTitle: 'Lokasi Demo',
+        demoDesc: 'Fadehouse adalah barbershop fiktif yang dibuat sebagai demonstrasi portofolio.',
+        code: 'LOKASI / 001',
+        region: 'JAKARTA — ID'
       }
     }
   },

@@ -38,6 +38,13 @@ export function Navbar() {
         <div className="flex items-center gap-8">
           <Link 
             href="/" 
+            aria-label="Fadehouse home"
+            onClick={(e) => {
+              if (pathname === "/") {
+                e.preventDefault()
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
+            }}
             className="font-display text-2xl font-bold tracking-tight text-foreground transition-opacity hover:opacity-80"
           >
             FADEHOUSE

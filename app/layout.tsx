@@ -20,7 +20,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: 'Fadehouse Barbershop',
+  title: 'Fadehouse — Barbershop Booking',
   description: 'Precision without compromise. Book your Fadehouse appointment.',
 };
 

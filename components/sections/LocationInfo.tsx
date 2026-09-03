@@ -60,18 +60,35 @@ export async function LocationInfo() {
             </div>
           </div>
 
-          <FadeIn delay={0.4} className="h-full min-h-[400px] lg:min-h-[500px] w-full rounded-sm overflow-hidden bg-background relative border border-border/50">
-            {/* Using a Google Maps embed for demo purposes, pointing to Jakarta generally */}
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m3!1d126920.24089454174!2d106.75871143891461!3d-6.229740058564027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta%2C%20Indonesia!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen={false}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-700 opacity-80 hover:opacity-100"
-            />
+          <FadeIn delay={0.4} className="h-full min-h-[400px] lg:min-h-[500px] w-full rounded-sm bg-surface border border-border/50 p-8 lg:p-12 flex flex-col justify-between relative overflow-hidden">
+            <div className="space-y-2 relative z-10 mt-4 lg:mt-8">
+              <h3 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground uppercase">
+                {t.home.location.panel.city}
+              </h3>
+              <p className="font-display text-xl lg:text-2xl font-medium tracking-widest text-muted uppercase">
+                {t.home.location.panel.country}
+              </p>
+            </div>
+            
+            <div className="space-y-12 relative z-10 mb-2">
+              <div className="max-w-[280px] space-y-2">
+                <p className="text-foreground font-medium uppercase tracking-wider text-sm">
+                  {t.home.location.panel.demoTitle}
+                </p>
+                <p className="text-muted text-sm leading-relaxed">
+                  {t.home.location.panel.demoDesc}
+                </p>
+              </div>
+              
+              <div className="flex justify-between items-end border-t border-border/30 pt-6">
+                <span className="text-xs text-muted tracking-widest uppercase">{t.home.location.panel.code}</span>
+                <span className="text-xs text-muted tracking-widest uppercase">{t.home.location.panel.region}</span>
+              </div>
+            </div>
+            
+            {/* Subtle architectural background lines to make it feel intentional */}
+            <div className="absolute top-0 right-1/3 w-[1px] h-full bg-border/20 z-0 hidden sm:block" />
+            <div className="absolute top-0 right-1/4 w-[1px] h-full bg-border/10 z-0 hidden sm:block" />
           </FadeIn>
 
         </div>
