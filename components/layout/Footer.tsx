@@ -35,13 +35,17 @@ export function Footer() {
               <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase mb-4">Location</h3>
               <ul className="space-y-3">
                 <li className="text-sm text-muted">
-                  [FADEHOUSE ADDRESS]
-                </li>
-                <li className="text-sm text-muted">
-                  [FADEHOUSE PHONE]
+                  Jl. Ahmad Yani No. 88<br />Cilegon, Banten 42421
                 </li>
                 <li>
-                  <a href="#" className="text-sm text-muted hover:text-accent transition-colors">[FADEHOUSE INSTAGRAM]</a>
+                  <a href="tel:+6281234567890" className="text-sm text-muted hover:text-accent transition-colors">
+                    +62 812-3456-7890
+                  </a>
+                </li>
+                <li>
+                  <a href="https://instagram.com/fadehouse.id" target="_blank" rel="noopener noreferrer" className="text-sm text-muted hover:text-accent transition-colors">
+                    @fadehouse.id
+                  </a>
                 </li>
               </ul>
             </div>

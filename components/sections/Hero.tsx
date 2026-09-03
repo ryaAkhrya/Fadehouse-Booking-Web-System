@@ -9,9 +9,9 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-background">
       {/* Background Media Placeholder */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-background/80 z-20"></div>
+        <div className="absolute inset-0 bg-background/40 z-20"></div>
         {/* Lighter gradient for text readability without being AI-slop */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-transparent z-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent z-20"></div>
         
         <HeroMedia />
       </div>

@@ -8,16 +8,6 @@ export function HeroMedia() {
 
   return (
     <>
-      <div className="absolute inset-0 z-0">
-        <FallbackImage 
-          src="/images/hero-poster.webp" 
-          alt="Fadehouse Hero" 
-          fill
-          priority
-          className="object-cover opacity-40 mix-blend-luminosity"
-        />
-      </div>
-      
       {!videoError && (
         <>
           <video 
@@ -25,7 +15,8 @@ export function HeroMedia() {
             muted 
             loop 
             playsInline 
-            className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity z-10 hidden md:block"
+            poster="/images/hero-poster.webp"
+            className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity z-10 hidden md:block"
           >
             <source src="/media/hero.mp4" type="video/mp4" onError={() => setVideoError(true)} />
           </video>
@@ -34,11 +25,24 @@ export function HeroMedia() {
             muted 
             loop 
             playsInline 
-            className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity z-10 md:hidden"
+            poster="/images/hero-poster.webp"
+            className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity z-10 md:hidden"
           >
             <source src="/media/hero-mobile.mp4" type="video/mp4" onError={() => setVideoError(true)} />
           </video>
         </>
+      )}
+      
+      {videoError && (
+        <div className="absolute inset-0 z-0">
+          <FallbackImage 
+            src="/images/hero-poster.webp" 
+            alt="Fadehouse Hero" 
+            fill
+            priority
+            className="object-cover mix-blend-luminosity opacity-60"
+          />
+        </div>
       )}
     </>
   )

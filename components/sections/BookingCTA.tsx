@@ -7,7 +7,7 @@ export function BookingCTA() {
   return (
     <section className="py-32 bg-background relative overflow-hidden border-t border-border/30">
       <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center relative z-10">
-        <Reveal>
+        <Reveal width="100%">
           <h2 className="font-display text-5xl md:text-7xl font-bold tracking-tight text-foreground uppercase mb-6">
             Reserve Your Time.
           </h2>

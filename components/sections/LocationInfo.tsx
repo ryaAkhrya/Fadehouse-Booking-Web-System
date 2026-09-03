@@ -43,11 +43,20 @@ export function LocationInfo() {
             <FadeIn delay={0.3} className="space-y-6">
               <div>
                 <p className="text-foreground font-medium mb-1">Fadehouse Barbershop</p>
-                <p className="text-muted">[FADEHOUSE ADDRESS]</p>
+                <p className="text-muted">Jl. Ahmad Yani No. 88, Cilegon, Banten 42421</p>
               </div>
               
-              <div className="h-48 w-full bg-background border border-border flex items-center justify-center rounded-sm">
-                <p className="text-muted text-sm">[MAP PLACEHOLDER]</p>
+              <div className="h-48 w-full bg-background border border-border flex items-center justify-center rounded-sm overflow-hidden">
+                <iframe 
+                  src="https://maps.google.com/maps?q=Cilegon,%20Banten,%20Indonesia&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen={false} 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Fadehouse Barbershop Map Location"
+                />
               </div>
             </FadeIn>
           </div>
